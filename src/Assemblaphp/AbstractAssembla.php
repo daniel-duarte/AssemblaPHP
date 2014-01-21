@@ -86,4 +86,15 @@ class AbstractAssembla
 
         return $connection->call($request, $fields);
     }
+
+    /**
+     * @param $name
+     * @param $value
+     *
+     * @return bool
+     */
+    public function __set($name, $value)
+    {
+        return false;
+    }
 } 
