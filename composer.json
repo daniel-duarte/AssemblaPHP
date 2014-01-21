@@ -1,0 +1,27 @@
+{
+    "name": "drdio/assemblaphp",
+    "description": "PHP Wrapper for Assembla API",
+    "keywords": ["assembla"],
+    "homepage": "https://github.com/DRDIO/AssemblaPHP",
+    "type": "library",
+    "license": "MIT",
+    
+    "authors": [
+        {
+            "name": "Kevin Nuut",
+            "homepage": "http://nuut.co/"
+        }
+    ],
+
+    "require": {
+        "php": ">= 5.4.0",
+        "psr/log": "~1.0"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "AssemblaPHP\\": "src/"
+        }
+    }
+}
+
