@@ -46,6 +46,12 @@ class Milestone extends RepositoryAbstract
             $outputList[$milestone->id] = $ticketObj;
         }
 
+        if (!empty($orderBy)) {
+            foreach ($orderBy as $orderCol) {
+                $outputList = $this->orderBy($outputList, $orderCol, 1);
+            }
+        }
+
         return $outputList;
     }
 

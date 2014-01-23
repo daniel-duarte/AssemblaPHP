@@ -32,7 +32,7 @@ switch ($action) {
         $orderDir      = @($_GET['direction'] ? : 'DESC');
         $department     = @($_GET['department'] ? : 'DESC');
 
-        $milestoneList = $em->getRepository(new \Assemblaphp\Entity\Milestone())->findBy(array('status' => 'upcoming'));
+        $milestoneList = $em->getRepository(new \Assemblaphp\Entity\Milestone())->findBy(array('status' => 'upcoming'), array('title'));
 
         $ticketRepo = $em->getRepository(new Ticket());
         $ticketList = $ticketRepo->findBy(array('milestone' => $milestoneId, 'status' => 'active'), array($orderBy));

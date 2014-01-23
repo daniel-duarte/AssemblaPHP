@@ -134,10 +134,12 @@ use \Assemblaphp\Entity;
                         <?php if (!empty($ticket->getCustomFields()->waitingOn)): ?>
                             <p></p>
 
-                            <div class="alert alert-info" style="opacity: 0.5; margin-bottom: 0;">
-                                <span class="label label-default pull-right" style="opacity: 0.75;">
-                                    <?= date('Y-m-d', strtotime($ticket->getCustomFields()->lastWait)); ?>
-                                </span>
+                            <div class="alert alert-info" style="opacity: 0.75; margin-bottom: 0;">
+                                <?php if (!empty($ticket->getCustomFields()->lastWait)): ?>
+                                    <span class="label label-default pull-right">
+                                        <?= date('Y-m-d', strtotime($ticket->getCustomFields()->lastWait)); ?>
+                                    </span>
+                                <?php endif; ?>
 
                                 Waiting On: <?= $ticket->getCustomFields()->waitingOn; ?>
                             </div>
