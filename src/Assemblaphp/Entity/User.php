@@ -5,14 +5,14 @@
  * @author Kevin Nuut
  */
 
-namespace Assemblaphp;
+namespace Assemblaphp\Entity;
 
 /**
  * Class User
  *
  * @package Krush\Assembla
  */
-class User extends AbstractAssembla
+class User extends EntityAbstract
 {
     protected $object = 'users';
 
@@ -24,22 +24,6 @@ class User extends AbstractAssembla
     protected $phone;
     protected $im;
     protected $im2;
-
-    /**
-     * @return bool
-     */
-    public function getPhoto()
-    {
-        $photo = $this->call(
-            $this->object,
-            'picture',
-            [],
-            [],
-            $this->id
-        );
-
-        return $photo;
-    }
 
     /**
      * @param mixed $email

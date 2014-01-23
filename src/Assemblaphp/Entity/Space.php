@@ -5,14 +5,14 @@
  * @author Kevin Nuut
  */
 
-namespace Assemblaphp;
+namespace Assemblaphp\Entity;
 
 /**
  * Class Space
  *
- * @package Krush\Assembla
+ * @package Assemblaphp\Entity
  */
-class Space extends AbstractAssembla
+class Space extends EntityAbstract
 {
     protected $id;
     protected $name;
@@ -38,85 +38,11 @@ class Space extends AbstractAssembla
     protected $style;
     protected $status;
     protected $approved;
-    protected $is_manager;
+    protected $isManager;
     protected $isVolunteer;
     protected $isCommercial;
     protected $canJoin;
     protected $wikiFormat;
-    
-    /**
-     * @param int $repordId
-     * @param int $page
-     * @param int $count
-     */
-    public function getTicketList($repordId = 0, $page = 1, $count = 1000)
-    {
-        /**
-         * @var \stdClass $apiList
-         */
-        $apiList = $this->call(
-            'spaces',
-            'tickets',
-            [],
-            [
-                'report'   => $repordId,
-                'page'     => $page,
-                'per_page' => $count
-            ]
-        );
-
-        $outputList = [];
-        $userList   = $this->getUserList();
-
-        foreach ($apiList as $ticket) {
-            $ticketObj    = new Ticket($this->getConnection(), $ticket);
-            $assignedToId = $ticketObj->getAssignedToId();
-
-            if (!empty($assignedToId)) {
-                $ticketObj->assignedTo = $userList[$assignedToId];
-            } else {
-                $ticketObj->assignedTo = new User($this->getConnection());
-            }
-
-            $outputList[$ticket->id] = $ticketObj;
-        }
-
-        return $outputList;
-    }
-
-    /**
-     * @return array
-     */
-    public function getUserList()
-    {
-        /**
-         * @var \stdClass $apiList
-         */
-        $apiList = $this->call(
-            'spaces',
-            'users'
-        );
-
-        $outputList = [];
-
-        foreach ($apiList as $user) {
-
-            $outputList[$user->id] = new User($this->getConnection(), $user);
-        }
-
-        return $outputList;
-    }
-
-    /**
-     * @param $id
-     *
-     * @return User
-     */
-    public function findUser($id)
-    {
-        $response = $this->call('users', '', [], [], $id);
-        return new User($this->getConnection(), $response);
-    }
 
     /**
      * @param mixed $approved

@@ -5,14 +5,14 @@
  * @author Kevin Nuut
  */
 
-namespace Assemblaphp;
+namespace Assemblaphp\Entity;
 
 /**
  * Class Ticket
  *
- * @package Krush\Assembla
+ * @package Assemblaphp
  */
-class Ticket extends AbstractAssembla
+class Ticket extends EntityAbstract
 {
     protected $id;
     protected $number;
