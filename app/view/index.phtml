@@ -136,6 +136,11 @@ use \Assemblaphp\Entity;
                         <p></p>
 
                         <div style="opacity: 0.75;">
+                            <?php if (!empty($ticket->getCustomFields()->departmentRequesting)): ?>
+                                <span class="label label-default" style="margin-right: 0.5em;" title="Department">
+                                    <?= $ticket->getCustomFields()->departmentRequesting; ?>
+                                </span>
+                            <?php endif; ?>
                             <span class="label label-default" style="margin-right: 0.5em;" title="Created On">
                                 Created <?= date('Y-m-d', strtotime($ticket->getCreatedOn())); ?>
                             </span>
@@ -143,7 +148,7 @@ use \Assemblaphp\Entity;
                                 Updated <?= date('Y-m-d', strtotime($ticket->getUpdatedAt())); ?>
                             </span>
                             <?php if (!empty($ticket->getCustomFields()->deadline)): ?>
-                                <span class="label label-<?= $lateness; ?>" style="margin-right: 0.5em;" title="Last Update">
+                                <span class="label label-<?= $lateness; ?>" style="margin-right: 0.5em;" title="Deadline">
                                     Deadline <?= date('Y-m-d', strtotime($ticket->getCustomFields()->deadline)); ?>
                                 </span>
                             <?php endif; ?>
