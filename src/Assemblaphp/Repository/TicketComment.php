@@ -50,6 +50,8 @@ class TicketComment extends RepositoryAbstract
             }
 
             $comment = preg_replace('/\(In.*?\)( [a-z]+ #\d+)?/', 'COMMIT: ', $comment);
+            $comment = preg_replace('/\[\[(image|file):.*?\]\]/', '', $comment);
+            $comment = trim($comment);
 
             if (empty($comment)) {
                 continue;
