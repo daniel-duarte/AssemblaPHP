@@ -1,6 +1,6 @@
 <?php
 /**
- * Created for Krush on 1/21/14.
+ * Created for No Reason on 1/21/14.
  * 
  * @author Kevin Nuut <kevin@krushcom.com>
  */
