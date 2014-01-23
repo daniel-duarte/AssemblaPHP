@@ -30,7 +30,8 @@ switch ($action) {
         $milestoneId   = @($_GET['milestone'] ? : '2705133');
         $orderBy       = @($_GET['sort'] ? : 'priority');
         $orderDir      = @($_GET['direction'] ? : 'DESC');
-        $department     = @($_GET['department'] ? : 'DESC');
+        $department    = @($_GET['department'] ? : 'All');
+        $status        = @($_GET['status'] ? : 'All');
 
         $milestoneList = $em->getRepository(new \Assemblaphp\Entity\Milestone())->findBy(array('status' => 'upcoming'), array('title'));
 
@@ -40,10 +41,12 @@ switch ($action) {
         $view->milestoneList = $milestoneList;
         $view->orderByList   = array('status', 'priority', 'assignedTo', 'createdOn');
         $view->deptList      = array('All', 'Sales', 'Finance', 'Customer Service', 'Operations', 'Dev');
+        $view->statusList    = array('All', 'New', 'Work', 'Waiting', 'Paused', 'Test', 'Review', 'Deploy');
         $view->orderDirList  = array('ASC', 'DESC');
         $view->milestoneId   = $milestoneId;
         $view->orderBy       = $orderBy;
         $view->department    = $department;
+        $view->status        = $status;
         $view->orderDir      = $orderDir;
         $view->ticketList    = $ticketList;
         break;

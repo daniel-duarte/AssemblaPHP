@@ -66,6 +66,15 @@ use \Assemblaphp\Entity;
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        <label for="status" class="sr-only"></label>
+                        <select name="status" id="status" class="form-control">
+                            <?php foreach ($this->statusList as $status): ?>
+                                <option value="<?= $status; ?>"
+                                    <?= ($this->status == $status ? 'selected="selected"' : ''); ?>>
+                                    <?= $status; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                 </form>
                 <p></p>
@@ -73,6 +82,7 @@ use \Assemblaphp\Entity;
 
             <?php foreach ($this->ticketList as $ticket):
                 if ($this->department == 'All' || $this->department == $ticket->getCustomFields()->departmentRequesting):
+                if ($this->status == 'All' || $this->status == $ticket->getStatus()):
                     $assigned = $ticket->getAssignedTo()->getName() ? 'info' : 'warning';
                     $priority = $ticket->getPriority();
                     $lateness = @($ticket->getCustomFields()->deadline ?: date('Y-m-d'));
@@ -168,7 +178,7 @@ use \Assemblaphp\Entity;
 
                     </div>
                 </div>
-            <?php endif; endforeach; ?>
+            <?php endif; endif; endforeach; ?>
 
         </div>
 
