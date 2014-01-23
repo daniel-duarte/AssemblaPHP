@@ -7,6 +7,8 @@
 
 namespace Assemblaphp\Repository;
 
+use Assemblaphp\Entity\EntityInterface;
+use Assemblaphp\Entity\TicketComment;
 use Assemblaphp\Entity\User;
 
 /**
@@ -29,14 +31,17 @@ class Ticket extends RepositoryAbstract
         $userRepo = $this->entityManager->getRepository(new User());
         $userList = $userRepo->findAll();
 
+        $url = @($criteria['milestone'] ? '/milestone/' . $criteria['milestone'] : '');
+
         $apiList = $this->entityManager->call(
             'spaces',
-            'tickets',
+            'tickets' . $url,
             [],
             [
                 'report'   => @($criteria['report'] ?: null),
                 'page'     => @($offset ?: $this::DEF_OFFSET),
-                'per_page' => @($limit ?: $this::DEF_LIMIT)
+                'per_page' => @($limit ?: $this::DEF_LIMIT),
+                'ticket_status' => @($criteria['status'] ?: 'all')
             ]
         );
 
@@ -44,18 +49,35 @@ class Ticket extends RepositoryAbstract
 
         foreach ($apiList as $ticket) {
             $ticketObj    = new \Assemblaphp\Entity\Ticket($ticket);
+
             $assignedToId = $ticketObj->getAssignedToId();
 
             if (!empty($assignedToId)) {
-                $ticketObj->assignedTo = $userList[$assignedToId];
+                $ticketObj->setAssignedTo($userList[$assignedToId]);
             } else {
-                $ticketObj->assignedTo = new User();
+                $ticketObj->setAssignedTo(new User());
             }
 
-            $outputList[$ticket->id] = $ticketObj;
+            $outputList[$ticketObj->getId()] = $ticketObj;
+        }
+
+        if (!empty($orderBy)) {
+            foreach ($orderBy as $orderCol) {
+                $outputList = $this->orderBy($outputList, $orderCol);
+            }
         }
 
         return $outputList;
     }
 
+    /**
+     * @param $id
+     *
+     * @return EntityInterface
+     */
+    public function find($id)
+    {
+        $response = $this->entityManager->call('spaces', 'tickets', [], [], $id);
+        return new \Assemblaphp\Entity\User($response);
+    }
 } 

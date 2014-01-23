@@ -66,38 +66,4 @@ class EntityRepository
         return $outputList;
 
     }
-
-    /**
-     * @return array
-     */
-    public function getUserList()
-    {
-        /**
-         * @var \stdClass $apiList
-         */
-        $apiList = $this->call(
-            'spaces',
-            'users'
-        );
-
-        $outputList = [];
-
-        foreach ($apiList as $user) {
-
-            $outputList[$user->id] = new User($this->getConnection(), $user);
-        }
-
-        return $outputList;
-    }
-
-    /**
-     * @param $id
-     *
-     * @return User
-     */
-    public function findUser($id)
-    {
-        $response = $this->call('users', '', [], [], $id);
-        return new User($this->getConnection(), $response);
-    }
 } 

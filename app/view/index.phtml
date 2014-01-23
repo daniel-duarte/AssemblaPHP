@@ -1,0 +1,115 @@
+<?php
+
+use \Assemblaphp\Entity;
+
+/**
+ * @var Entity\Milestone $milestone
+ */
+
+/**
+ * @var Entity\Ticket $ticket
+ */
+
+?>
+
+<html>
+    <head>
+        <title>Aggregato Global Projects</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <div class="container">
+            <p></p>
+            <nav class="navbar navbar-default">
+                <span class="navbar-brand">
+                    Aggregato Global Projects
+                </span>
+
+                <form class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <label for="milestone" class="sr-only"></label>
+                        <select id="milestone" class="form-control">
+                            <?php foreach ($this->milestoneList as $milestone): ?>
+                                <option value="<?= $milestone->getId(); ?>"
+                                    <?= ($this->milestoneId == $milestone->getId() ? 'selected="selected"' : ''); ?>>
+                                    <?= $milestone->getTitle(); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </form>
+                <p></p>
+            </nav>
+
+            <?php foreach ($this->ticketList as $ticket):
+                $label = (in_array($ticket->getStatus(), ['Test', 'Review', 'Deploy']) ? 'success' :
+                    (in_array($ticket->getStatus(), ['Waiting', 'Paused']) ? 'danger' : 'info'));
+                $overdue = ($ticket->getTotalWorkingHours() > $ticket->getTotalEstimate() ? 'danger' : 'info');
+            ?>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong>#<?= $ticket->getNumber(); ?></strong>
+                        <?= $ticket->getSummary(); ?>
+
+                        <div class="pull-right">
+
+                            <span style="opacity: 0.35;">
+                                <span class="label label-default" style="margin-right: 0.5em;" title="Created On">
+                                    <?= date('Y-m-d', strtotime($ticket->getCreatedOn())); ?>
+                                </span>
+                                <span class="label label-default" style="margin-right: 0.5em;" title="Last Update">
+                                    <?= date('Y-m-d', strtotime($ticket->getUpdatedAt())); ?>
+                                </span>
+                                <span href="#" class="label label-<?= $overdue; ?>" style="margin-right: 0.5em;" title="Worked / Estimate">
+                                    <?= ceil($ticket->getTotalWorkingHours()); ?> /
+                                    <?= ceil($ticket->getTotalEstimate()); ?>
+                                </span>
+                            </span>
+
+                            <a class="btn btn-xs btn-<?= $label; ?>" title="Status" data-toggle="modal"
+                                  data-target="#myModal" data-ticket="<?= $ticket->getNumber(); ?>">
+                                <?= $ticket->getStatus(); ?>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="panel-body text-muted">
+                        <?= $ticket->getDescription(); ?>
+
+                        <?php if (!empty($ticket->getCustomFields()->waitingOn)): ?>
+                            <p></p>
+
+                            <div class="alert alert-info" style="opacity: 0.5; margin-bottom: 0;">
+                                <span class="label label-default pull-right" style="opacity: 0.75;">
+                                    <?= date('Y-m-d', strtotime($ticket->getCustomFields()->lastWait)); ?>
+                                </span>
+
+                                <?= $ticket->getCustomFields()->waitingOn; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Comments</h4>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <script type="application/javascript" src="/js/jquery.min.js"></script>
+        <script type="application/javascript" src="/js/bootstrap.min.js"></script>
+        <script type="application/javascript" src="/js/primary.js"></script>
+    </body>
+</html>

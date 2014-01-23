@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @var \Assemblaphp\Entity\TicketComment $comment
+ */
+
+?>
+
+<?php if ($this->commentList): ?>
+
+<?php foreach ($this->commentList as $comment): ?>
+
+    <div class="alert alert-info" style="margin-bottom: 1em;">
+        <span class="label label-default pull-right" style="opacity: 0.75;">
+            <?= date('Y-m-d', strtotime($comment->getUpdatedAt())); ?>
+        </span>
+
+        <?= $comment->getComment(); ?>
+    </div>
+
+<?php endforeach; ?>
+
+<?php else: ?>
+
+    <div class="alert alert-warning" style="margin-bottom: 1em;">
+        No Comments Available
+    </div>
+
+<?php endif; ?>

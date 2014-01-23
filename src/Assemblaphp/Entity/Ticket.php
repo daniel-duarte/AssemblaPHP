@@ -14,35 +14,50 @@ namespace Assemblaphp\Entity;
  */
 class Ticket extends EntityAbstract
 {
-    protected $id;
-    protected $number;
-    protected $summary;
-    protected $description;
-    protected $priority;
-    protected $completedDate;
-    protected $componentId;
-    protected $createdOn;
-    protected $permissionType;
-    protected $importance;
-    protected $isStory;
-    protected $milestoneId;
-    protected $tags;
-    protected $followers;
-    protected $notificationList;
-    protected $spaceId;
-    protected $state;
-    protected $status;
-    protected $storyImportance;
-    protected $updatedAt;
-    protected $workingHours;
-    protected $estimate;
-    protected $totalEstimate;
-    protected $totalInvestedHours;
-    protected $totalWorkingHours;
-    protected $assignedToId;
-    protected $reporterId;
-    protected $customFields;
-    protected $hierarchyType;
+    private $id;
+    private $number;
+    private $summary;
+    private $description;
+    private $priority;
+    private $completedDate;
+    private $componentId;
+    private $createdOn;
+    private $permissionType;
+    private $importance;
+    private $isStory;
+    private $milestoneId;
+    private $tags;
+    private $followers;
+    private $notificationList;
+    private $spaceId;
+    private $state;
+    private $status;
+    private $storyImportance;
+    private $updatedAt;
+    private $workingHours;
+    private $estimate;
+    private $totalEstimate;
+    private $totalInvestedHours;
+    private $totalWorkingHours;
+    private $assignedToId;
+    private $reporterId;
+    private $customFields;
+    private $hierarchyType;
+
+    /**
+     * @var User
+     */
+    private $assignedTo;
+
+    /**
+     * @var User
+     */
+    private $reporter;
+
+    /**
+     * @var TicketComment[]
+     */
+    private $commentList;
 
     /**
      * @param mixed $assignedToId
@@ -535,5 +550,53 @@ class Ticket extends EntityAbstract
     public function getWorkingHours()
     {
         return $this->workingHours;
+    }
+
+    /**
+     * @param \Assemblaphp\Entity\User $assignedTo
+     */
+    public function setAssignedTo($assignedTo)
+    {
+        $this->assignedTo = $assignedTo;
+    }
+
+    /**
+     * @return \Assemblaphp\Entity\User
+     */
+    public function getAssignedTo()
+    {
+        return $this->assignedTo;
+    }
+
+    /**
+     * @param \Assemblaphp\Entity\TicketComment[] $commentList
+     */
+    public function setCommentList($commentList)
+    {
+        $this->commentList = $commentList;
+    }
+
+    /**
+     * @return \Assemblaphp\Entity\TicketComment[]
+     */
+    public function getCommentList()
+    {
+        return $this->commentList;
+    }
+
+    /**
+     * @param \Assemblaphp\Entity\User $reporter
+     */
+    public function setReporter($reporter)
+    {
+        $this->reporter = $reporter;
+    }
+
+    /**
+     * @return \Assemblaphp\Entity\User
+     */
+    public function getReporter()
+    {
+        return $this->reporter;
     }
 } 

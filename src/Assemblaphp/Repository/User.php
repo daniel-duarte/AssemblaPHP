@@ -7,6 +7,8 @@
 
 namespace Assemblaphp\Repository;
 
+use Assemblaphp\Entity\EntityInterface;
+
 /**
  * Class Ticket
  *
@@ -41,4 +43,15 @@ class User extends RepositoryAbstract
         return $outputList;
     }
 
-} 
+    /**
+     * @param $id
+     *
+     * @return EntityInterface
+     */
+    public function find($id)
+    {
+        $response = $this->entityManager->call('users', '', [], [], $id);
+        return new \Assemblaphp\Entity\User($response);
+    }
+
+}

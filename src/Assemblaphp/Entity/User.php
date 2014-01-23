@@ -14,16 +14,15 @@ namespace Assemblaphp\Entity;
  */
 class User extends EntityAbstract
 {
-    protected $object = 'users';
-
-    protected $id;
-    protected $login;
-    protected $name;
-    protected $email;
-    protected $organization;
-    protected $phone;
-    protected $im;
-    protected $im2;
+    private $id;
+    private $login;
+    private $name;
+    private $email;
+    private $organization;
+    private $phone;
+    private $im;
+    private $im2;
+    private $picture;
 
     /**
      * @param mixed $email
@@ -159,6 +158,23 @@ class User extends EntityAbstract
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * @param mixed $picture
+     */
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPicture()
+    {
+        return $this->picture;
     }
     
     

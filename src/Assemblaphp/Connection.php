@@ -138,8 +138,6 @@ class Connection
         $ch   = curl_init();
         $json = json_encode($fields);
 
-        var_dump($curlPath);
-
         $curlOpts = [
             CURLOPT_URL            => $curlPath,
             CURLOPT_RETURNTRANSFER => true,
@@ -192,7 +190,7 @@ class Connection
         } catch (\Exception $e) {
             $message = $e->getMessage();
             if (!empty($responseData->error)) {
-                $message .= ' {' . $responseData->error . ': ' . $responseData->error_description . '}';
+                $message .= ' {' . $responseData->error . '}';
             }
 
             throw new \Exception ($message, $e->getCode());

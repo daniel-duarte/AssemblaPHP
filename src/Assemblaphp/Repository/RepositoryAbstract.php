@@ -15,7 +15,7 @@ use Assemblaphp\EntityManagerInterface;
  *
  * @package Assemblaphp\Repository
  */
-class RepositoryAbstract implements RepositoryInterface
+abstract class RepositoryAbstract implements RepositoryInterface
 {
     /**
      * @var EntityManagerInterface
@@ -76,4 +76,22 @@ class RepositoryAbstract implements RepositoryInterface
         return null;
     }
 
+    /**
+     * @param $list
+     * @param $orderBy
+     * @param $direction
+     *
+     * @return mixed
+     */
+    protected function orderBy($list, $orderBy, $direction = 1)
+    {
+        usort($list, function($a, $b) use ($orderBy, $direction) {
+            $aVal = $a->{'get' . ucwords($orderBy)}();
+            $bVal = $b->{'get' . ucwords($orderBy)}();
+
+            return ($aVal == $bVal ? 0 : ($aVal > $bVal ? 1 * $direction : -1 * $direction));
+        });
+
+        return $list;
+    }
 }

@@ -12,7 +12,7 @@ namespace Assemblaphp\Entity;
  *
  * @package Assemblaphp\Entity
  */
-class EntityAbstract implements EntityInterface
+abstract class EntityAbstract implements EntityInterface
 {
     /**
      * @param array $config
@@ -31,15 +31,18 @@ class EntityAbstract implements EntityInterface
     {
         if (!empty($configuration)) {
             foreach ($configuration as $key => $value) {
-                if ($key == 'custom_fields') {
-                    foreach ($value as $customKey => $custom) {
-                        $formatKey = $this->formatKey($customKey);
-                        $this->$formatKey = $custom;
+                $formatKey = 'set' . $this->formatKey($key);
+
+                if ($formatKey == 'setCustomFields') {
+                    $nextValue = new \StdClass();
+                    foreach ($value as $label => $field) {
+                        $nextValue->{lcfirst($this->formatKey($label))} = $field;
                     }
-                } else {
-                    $formatKey = $this->formatKey($key);
-                    $this->$formatKey = $value;
+
+                    $value = $nextValue;
                 }
+
+                $this->{$formatKey}($value);
             }
         }
 
@@ -53,6 +56,6 @@ class EntityAbstract implements EntityInterface
      */
     private function formatKey($key)
     {
-        return lcfirst(str_replace(' ', '', ucwords(strtolower(str_replace('_', ' ', $key)))));
+        return str_replace(' ', '', ucwords(strtolower(str_replace('_', ' ', $key))));
     }
 } 

@@ -14,35 +14,35 @@ namespace Assemblaphp\Entity;
  */
 class Space extends EntityAbstract
 {
-    protected $id;
-    protected $name;
-    protected $description;
-    protected $wikiName;
-    protected $publicPermissions;
-    protected $teamPermissions;
-    protected $watcherPermissions;
-    protected $sharePermissions;
-    protected $teamTabRole;
-    protected $createdAt;
-    protected $updatedAt;
-    protected $defaultShowpage;
-    protected $tabsOrder;
-    protected $parentId;
-    protected $restricted;
-    protected $restrictedDate;
-    protected $commercialFrom;
-    protected $banner;
-    protected $bannerHeight;
-    protected $bannerText;
-    protected $bannerLink;
-    protected $style;
-    protected $status;
-    protected $approved;
-    protected $isManager;
-    protected $isVolunteer;
-    protected $isCommercial;
-    protected $canJoin;
-    protected $wikiFormat;
+    private $id;
+    private $name;
+    private $description;
+    private $wikiName;
+    private $publicPermissions;
+    private $teamPermissions;
+    private $watcherPermissions;
+    private $sharePermissions;
+    private $teamTabRole;
+    private $createdAt;
+    private $updatedAt;
+    private $defaultShowpage;
+    private $tabsOrder;
+    private $parentId;
+    private $restricted;
+    private $restrictedDate;
+    private $commercialFrom;
+    private $banner;
+    private $bannerHeight;
+    private $bannerText;
+    private $bannerLink;
+    private $style;
+    private $status;
+    private $approved;
+    private $isManager;
+    private $isVolunteer;
+    private $isCommercial;
+    private $canJoin;
+    private $wikiFormat;
 
     /**
      * @param mixed $approved
@@ -50,6 +50,7 @@ class Space extends EntityAbstract
     public function setApproved($approved)
     {
         $this->approved = $approved;
+        return $this;
     }
 
     /**
@@ -66,6 +67,7 @@ class Space extends EntityAbstract
     public function setBanner($banner)
     {
         $this->banner = $banner;
+        return $this;
     }
 
     /**
@@ -82,6 +84,7 @@ class Space extends EntityAbstract
     public function setBannerHeight($bannerHeight)
     {
         $this->bannerHeight = $bannerHeight;
+        return $this;
     }
 
     /**
@@ -98,6 +101,7 @@ class Space extends EntityAbstract
     public function setBannerLink($bannerLink)
     {
         $this->bannerLink = $bannerLink;
+        return $this;
     }
 
     /**
@@ -114,6 +118,7 @@ class Space extends EntityAbstract
     public function setBannerText($bannerText)
     {
         $this->bannerText = $bannerText;
+        return $this;
     }
 
     /**
@@ -130,6 +135,7 @@ class Space extends EntityAbstract
     public function setCanJoin($canJoin)
     {
         $this->canJoin = $canJoin;
+        return $this;
     }
 
     /**
@@ -146,6 +152,7 @@ class Space extends EntityAbstract
     public function setCommercialFrom($commercialFrom)
     {
         $this->commercialFrom = $commercialFrom;
+        return $this;
     }
 
     /**
@@ -162,6 +169,7 @@ class Space extends EntityAbstract
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     /**
@@ -178,6 +186,7 @@ class Space extends EntityAbstract
     public function setDefaultShowpage($defaultShowpage)
     {
         $this->defaultShowpage = $defaultShowpage;
+        return $this;
     }
 
     /**
@@ -194,6 +203,7 @@ class Space extends EntityAbstract
     public function setDescription($description)
     {
         $this->description = $description;
+        return $this;
     }
 
     /**
@@ -210,6 +220,7 @@ class Space extends EntityAbstract
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -226,6 +237,7 @@ class Space extends EntityAbstract
     public function setIsCommercial($isCommercial)
     {
         $this->isCommercial = $isCommercial;
+        return $this;
     }
 
     /**
@@ -242,6 +254,7 @@ class Space extends EntityAbstract
     public function setIsVolunteer($isVolunteer)
     {
         $this->isVolunteer = $isVolunteer;
+        return $this;
     }
 
     /**
@@ -253,11 +266,12 @@ class Space extends EntityAbstract
     }
 
     /**
-     * @param mixed $is_manager
+     * @param mixed $isManager
      */
-    public function setIsManager($is_manager)
+    public function setIsManager($isManager)
     {
-        $this->is_manager = $is_manager;
+        $this->isManager = $isManager;
+        return $this;
     }
 
     /**
@@ -265,7 +279,7 @@ class Space extends EntityAbstract
      */
     public function getIsManager()
     {
-        return $this->is_manager;
+        return $this->$isManager;
     }
 
     /**
@@ -274,6 +288,7 @@ class Space extends EntityAbstract
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -290,6 +305,7 @@ class Space extends EntityAbstract
     public function setParentId($parentId)
     {
         $this->parentId = $parentId;
+        return $this;
     }
 
     /**
@@ -306,6 +322,7 @@ class Space extends EntityAbstract
     public function setPublicPermissions($publicPermissions)
     {
         $this->publicPermissions = $publicPermissions;
+        return $this;
     }
 
     /**
@@ -322,6 +339,7 @@ class Space extends EntityAbstract
     public function setRestricted($restricted)
     {
         $this->restricted = $restricted;
+        return $this;
     }
 
     /**
@@ -338,6 +356,7 @@ class Space extends EntityAbstract
     public function setRestrictedDate($restrictedDate)
     {
         $this->restrictedDate = $restrictedDate;
+        return $this;
     }
 
     /**
@@ -354,6 +373,7 @@ class Space extends EntityAbstract
     public function setSharePermissions($sharePermissions)
     {
         $this->sharePermissions = $sharePermissions;
+        return $this;
     }
 
     /**
@@ -370,6 +390,7 @@ class Space extends EntityAbstract
     public function setStatus($status)
     {
         $this->status = $status;
+        return $this;
     }
 
     /**
@@ -386,6 +407,7 @@ class Space extends EntityAbstract
     public function setStyle($style)
     {
         $this->style = $style;
+        return $this;
     }
 
     /**
@@ -402,6 +424,7 @@ class Space extends EntityAbstract
     public function setTabsOrder($tabsOrder)
     {
         $this->tabsOrder = $tabsOrder;
+        return $this;
     }
 
     /**
@@ -418,6 +441,7 @@ class Space extends EntityAbstract
     public function setTeamPermissions($teamPermissions)
     {
         $this->teamPermissions = $teamPermissions;
+        return $this;
     }
 
     /**
@@ -434,6 +458,7 @@ class Space extends EntityAbstract
     public function setTeamTabRole($teamTabRole)
     {
         $this->teamTabRole = $teamTabRole;
+        return $this;
     }
 
     /**
@@ -450,6 +475,7 @@ class Space extends EntityAbstract
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
 
     /**
@@ -466,6 +492,7 @@ class Space extends EntityAbstract
     public function setWatcherPermissions($watcherPermissions)
     {
         $this->watcherPermissions = $watcherPermissions;
+        return $this;
     }
 
     /**
@@ -482,6 +509,7 @@ class Space extends EntityAbstract
     public function setWikiFormat($wikiFormat)
     {
         $this->wikiFormat = $wikiFormat;
+        return $this;
     }
 
     /**
@@ -498,6 +526,7 @@ class Space extends EntityAbstract
     public function setWikiName($wikiName)
     {
         $this->wikiName = $wikiName;
+        return $this;
     }
 
     /**
@@ -507,4 +536,6 @@ class Space extends EntityAbstract
     {
         return $this->wikiName;
     }
+
+
 } 
