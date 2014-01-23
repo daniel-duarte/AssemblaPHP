@@ -24,7 +24,7 @@ class Ticket extends RepositoryAbstract
      * @param null  $limit
      * @param null  $offset
      *
-     * @return Ticket[]
+     * @return Ticketarray()
      */
     public function findBy(Array $criteria, Array $orderBy = null, $limit = null, $offset = null)
     {
@@ -36,16 +36,16 @@ class Ticket extends RepositoryAbstract
         $apiList = $this->entityManager->call(
             'spaces',
             'tickets' . $url,
-            [],
-            [
+            array(),
+            array(
                 'report'   => @($criteria['report'] ?: null),
                 'page'     => @($offset ?: $this::DEF_OFFSET),
                 'per_page' => @($limit ?: $this::DEF_LIMIT),
                 'ticket_status' => @($criteria['status'] ?: 'all')
-            ]
+            )
         );
 
-        $outputList = [];
+        $outputList = array();
 
         foreach ($apiList as $ticket) {
             $ticketObj    = new \Assemblaphp\Entity\Ticket($ticket);
@@ -77,7 +77,7 @@ class Ticket extends RepositoryAbstract
      */
     public function find($id)
     {
-        $response = $this->entityManager->call('spaces', 'tickets', [], [], $id);
+        $response = $this->entityManager->call('spaces', 'tickets', array(), array(), $id);
         return new \Assemblaphp\Entity\User($response);
     }
 } 

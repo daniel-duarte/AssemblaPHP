@@ -22,7 +22,7 @@ class User extends RepositoryAbstract
      * @param null  $limit
      * @param null  $offset
      *
-     * @return User[]
+     * @return Userarray()
      */
     public function findBy(Array $criteria, Array $orderBy = null, $limit = null, $offset = null)
     {
@@ -34,7 +34,7 @@ class User extends RepositoryAbstract
             'users'
         );
 
-        $outputList = [];
+        $outputList = array();
 
         foreach ($apiList as $user) {
             $outputList[$user->id] = new \Assemblaphp\Entity\User($user);
@@ -50,7 +50,7 @@ class User extends RepositoryAbstract
      */
     public function find($id)
     {
-        $response = $this->entityManager->call('users', '', [], [], $id);
+        $response = $this->entityManager->call('users', '', array(), array(), $id);
         return new \Assemblaphp\Entity\User($response);
     }
 

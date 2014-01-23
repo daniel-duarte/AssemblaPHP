@@ -42,8 +42,8 @@ use \Assemblaphp\Entity;
             </nav>
 
             <?php foreach ($this->ticketList as $ticket):
-                $label = (in_array($ticket->getStatus(), ['Test', 'Review', 'Deploy']) ? 'success' :
-                    (in_array($ticket->getStatus(), ['Waiting', 'Paused']) ? 'danger' : 'info'));
+                $label = (in_array($ticket->getStatus(), array('Test', 'Review', 'Deploy')) ? 'success' :
+                    (in_array($ticket->getStatus(), array('Waiting', 'Paused')) ? 'danger' : 'info'));
                 $overdue = ($ticket->getTotalWorkingHours() > $ticket->getTotalEstimate() ? 'danger' : 'info');
             ?>
                 <div class="panel panel-default">

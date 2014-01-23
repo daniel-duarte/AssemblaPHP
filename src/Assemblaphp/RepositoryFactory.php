@@ -17,7 +17,7 @@ use Assemblaphp\Repository\RepositoryInterface;
  */
 class RepositoryFactory implements RepositoryFactoryInterface
 {
-    private $repositoryList = [];
+    private $repositoryList = array();
 
     /**
      * @param EntityManagerInterface $entityManager

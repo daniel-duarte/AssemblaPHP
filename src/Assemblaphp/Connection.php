@@ -56,7 +56,7 @@ class Connection
             foreach ($apiUrl as $key => $value) {
                 if (in_array(
                     $key,
-                    ['apiUrl', 'apiKey', 'apiSecret', 'spaceId', 'version', 'responseType', 'timeout']
+                    array('apiUrl', 'apiKey', 'apiSecret', 'spaceId', 'version', 'responseType', 'timeout')
                 )
                 ) {
                     $this->$key = $value;
@@ -131,25 +131,25 @@ class Connection
      * @return bool
      * @throws \Exception
      */
-    public function call($request = '', Array $fields = [], $verb = self::VERB_GET)
+    public function call($request = '', Array $fields = array(), $verb = self::VERB_GET)
     {
         $curlPath = $this->apiUrl . $this->version . '/' . $request . '.' . $this->responseType;
 
         $ch   = curl_init();
         $json = json_encode($fields);
 
-        $curlOpts = [
+        $curlOpts = array(
             CURLOPT_URL            => $curlPath,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT        => $this->timeout,
-            CURLOPT_HTTPHEADER     => [
+            CURLOPT_HTTPHEADER     => array(
                 'X-Api-Key: ' . $this->apiKey,
                 'X-Api-Secret: ' . $this->apiSecret,
                 'Content-Type: application/' . $this->responseType,
                 'Accept: application/' . $this->responseType
-            ],
+            ),
             CURLOPT_SSL_VERIFYPEER => false
-        ];
+        );
 
         switch ($verb) {
             case $this::VERB_POST:

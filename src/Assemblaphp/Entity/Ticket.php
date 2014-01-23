@@ -55,7 +55,7 @@ class Ticket extends EntityAbstract
     private $reporter;
 
     /**
-     * @var TicketComment[]
+     * @var TicketCommentarray()
      */
     private $commentList;
 
@@ -569,7 +569,7 @@ class Ticket extends EntityAbstract
     }
 
     /**
-     * @param \Assemblaphp\Entity\TicketComment[] $commentList
+     * @param \Assemblaphp\Entity\TicketCommentarray() $commentList
      */
     public function setCommentList($commentList)
     {
@@ -577,7 +577,7 @@ class Ticket extends EntityAbstract
     }
 
     /**
-     * @return \Assemblaphp\Entity\TicketComment[]
+     * @return \Assemblaphp\Entity\TicketCommentarray()
      */
     public function getCommentList()
     {

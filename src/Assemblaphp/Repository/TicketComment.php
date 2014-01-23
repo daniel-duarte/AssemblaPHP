@@ -20,7 +20,7 @@ class TicketComment extends RepositoryAbstract
      * @param null  $limit
      * @param null  $offset
      *
-     * @return Ticket[]
+     * @return Ticketarray()
      */
     public function findBy(Array $criteria, Array $orderBy = null, $limit = null, $offset = null)
     {
@@ -30,14 +30,14 @@ class TicketComment extends RepositoryAbstract
         $apiList = $this->entityManager->call(
             'spaces',
             'tickets/' . $ticket . '/ticket_comments',
-            [],
-            [
+            array(),
+            array(
                 'page'     => @($offset ?: $this::DEF_OFFSET),
                 'per_page' => @($limit ?: $this::DEF_LIMIT)
-            ]
+            )
         );
 
-        $outputList = [];
+        $outputList = array();
 
         foreach ($apiList as $ticketComment) {
             $ticketCommentObj    = new \Assemblaphp\Entity\TicketComment($ticketComment);

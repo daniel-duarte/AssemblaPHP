@@ -27,7 +27,7 @@ interface RepositoryInterface
     public function find($id);
 
     /**
-     * @return EntityInterface[]
+     * @return EntityInterfacearray()
      */
     public function findAll();
 
@@ -37,7 +37,7 @@ interface RepositoryInterface
      * @param null  $limit
      * @param null  $offset
      *
-     * @return EntityInterface[]
+     * @return EntityInterfacearray()
      */
     public function findBy(Array $criteria, Array $orderBy = null, $limit = null, $offset = null);
 

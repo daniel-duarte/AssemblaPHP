@@ -41,7 +41,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
      */
     public function find($id)
     {
-        return [];
+        return array();
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
      */
     public function findAll()
     {
-        return $this->findBy([]);
+        return $this->findBy(array());
     }
 
     /**
@@ -58,11 +58,11 @@ abstract class RepositoryAbstract implements RepositoryInterface
      * @param null  $limit
      * @param null  $offset
      *
-     * @return EntityInterface[]
+     * @return EntityInterfacearray()
      */
     public function findBy(Array $criteria, Array $orderBy = null, $limit = null, $offset = null)
     {
-        return [];
+        return array();
     }
 
     /**

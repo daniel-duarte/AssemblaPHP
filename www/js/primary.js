@@ -5,6 +5,7 @@ $(function() {
 
 
     $('#myModal').on('show.bs.modal', function (e) {
-        $('#myModal .modal-body').load('/?action=comment&ticket=' + $(e.relatedTarget).data('ticket'));
+        var modal = $('#myModal .modal-body');
+        modal.load('/?action=comment&ticket=' + $(e.relatedTarget).data('ticket'));
     });
 });

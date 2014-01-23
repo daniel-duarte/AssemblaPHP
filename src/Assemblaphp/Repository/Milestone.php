@@ -18,7 +18,7 @@ class Milestone extends RepositoryAbstract
      * @param null  $limit
      * @param null  $offset
      *
-     * @return array|\Assemblaphp\Entity\EntityInterface[]
+     * @return array|\Assemblaphp\Entity\EntityInterfacearray()
      */
     public function findBy(Array $criteria, Array $orderBy = null, $limit = null, $offset = null)
     {
@@ -30,15 +30,15 @@ class Milestone extends RepositoryAbstract
         $apiList = $this->entityManager->call(
             'spaces',
             'milestones/' . $status,
-            [],
-            [
+            array(),
+            array(
                  'due_date_order' => @($criteria['due_date_order'] ?: 'DESC'),
                  'page'           => @($offset ?: $this::DEF_OFFSET),
                  'per_page'       => @($limit ?: $this::DEF_LIMIT)
-            ]
+            )
         );
 
-        $outputList = [];
+        $outputList = array();
 
         foreach ($apiList as $milestone) {
             $ticketObj    = new \Assemblaphp\Entity\Milestone($milestone);

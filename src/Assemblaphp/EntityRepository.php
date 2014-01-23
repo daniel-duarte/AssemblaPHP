@@ -39,15 +39,15 @@ class EntityRepository
         $apiList = $this->call(
             'spaces',
             'tickets',
-            [],
-            [
+            array(),
+            array(
                 'report'   => $repordId,
                 'page'     => $page,
                 'per_page' => $count
-            ]
+            )
         );
 
-        $outputList = [];
+        $outputList = array();
         $userList   = $this->getUserList();
 
         foreach ($apiList as $ticket) {

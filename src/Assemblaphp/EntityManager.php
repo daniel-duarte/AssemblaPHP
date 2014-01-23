@@ -74,7 +74,7 @@ class EntityManager implements EntityManagerInterface
      *
      * @return bool|mixed
      */
-    public function call($object, $method, Array $query = null, Array $fields = [], $id = null)
+    public function call($object, $method, Array $query = null, Array $fields = array(), $id = null)
     {
         $connection = $this->getConnection();
         $id = @($id ?: $connection->getSpaceId());
