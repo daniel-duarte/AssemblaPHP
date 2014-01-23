@@ -58,4 +58,7 @@ switch ($action) {
 
 }
 
+$view->title = @($fileConfig['www']['title'] ?: 'Project List');
+$view->link  = @($fileConfig['www']['link'] ?: '#');
+
 $view->render();

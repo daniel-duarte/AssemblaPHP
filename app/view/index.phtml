@@ -14,7 +14,8 @@ use \Assemblaphp\Entity;
 
 <html>
     <head>
-        <title>Aggregato Global Projects</title>
+        <title><?= $this->title; ?></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/bootstrap.min.css" />
     </head>
     <body>
@@ -22,10 +23,10 @@ use \Assemblaphp\Entity;
             <p></p>
             <nav class="navbar navbar-default">
                 <span class="navbar-brand">
-                    Aggregato Global Projects
+                    <?= $this->title; ?>
                 </span>
 
-                <form id="navsearch" class="navbar-form navbar-right">
+                <form id="navsearch" class="navbar-form navbar-right hidden-xs">
                     <div class="form-group">
                         <label for="milestone" class="sr-only"></label>
                         <select name="milestone" id="milestone" class="form-control">
@@ -76,35 +77,45 @@ use \Assemblaphp\Entity;
             ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <span class="btn btn-<?= $priority; ?> btn-xs" title="Priority">!</span>
-                        <strong>
-                            <a href="https://www.assembla.com/spaces/krush/tickets/<?= $ticket->getNumber(); ?>"
-                               title="See Full Ticket" target="_blank">
-                                #<?= $ticket->getNumber(); ?>
-                            </a>
-                        </strong>
-                        <?= $ticket->getSummary(); ?>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <span class="btn btn-<?= $priority; ?> btn-xs" title="Priority">!</span>
+                                <strong>
+                                    <a href="<?= $this->link; ?>tickets/<?= $ticket->getNumber(); ?>"
+                                       title="See Full Ticket" target="_blank">
+                                        #<?= $ticket->getNumber(); ?>
+                                    </a>
+                                </strong>
+                                <?= $ticket->getSummary(); ?>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="pull-right">
 
-                        <div class="pull-right">
+                                    <?php if($ticket->getAssignedTo()->getName()): ?>
+                                        <a href="https://www.assembla.com/profile/<?= $ticket->getAssignedTo()->getLogin(); ?>"
+                                           target="_blank" class="btn btn-xs btn-<?= $assigned; ?>" title="Assigned To">
+                                            <?= $ticket->getAssignedTo()->getName(); ?>
+                                        </a>
+                                    <?php endif; ?>
 
-                            <?php if($ticket->getAssignedTo()->getName()): ?>
-                                <a href="https://www.assembla.com/profile/<?= $ticket->getAssignedTo()->getLogin(); ?>"
-                                   target="_blank" class="btn btn-xs btn-<?= $assigned; ?>" title="Assigned To">
-                                <?= $ticket->getAssignedTo()->getName(); ?>
-                                </a>
-                            <?php endif; ?>
+                                    <span class="btn btn-xs btn-<?= $overdue; ?>" title="Worked / Estimate" data-toggle="modal"
+                                          data-target="#myModal" data-ticket="<?= $ticket->getNumber(); ?>">
+                                        <?= ceil($ticket->getTotalWorkingHours()); ?> /
+                                                <?= ceil($ticket->getTotalEstimate()); ?>
+                                    </span>
 
-                            <span class="btn btn-xs btn-<?= $overdue; ?>" title="Worked / Estimate" data-toggle="modal"
-                                  data-target="#myModal" data-ticket="<?= $ticket->getNumber(); ?>">
-                                <?= ceil($ticket->getTotalWorkingHours()); ?> /
-                                <?= ceil($ticket->getTotalEstimate()); ?>
-                            </span>
-
-                            <a class="btn btn-xs btn-<?= $label; ?>" title="Status" data-toggle="modal"
-                                  data-target="#myModal" data-ticket="<?= $ticket->getNumber(); ?>">
-                                <?= $ticket->getStatus(); ?>
-                            </a>
+                                    <a class="btn btn-xs btn-<?= $label; ?>" title="Status" data-toggle="modal"
+                                       data-target="#myModal" data-ticket="<?= $ticket->getNumber(); ?>">
+                                        <?= $ticket->getStatus(); ?>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
+
+
+
+
+
                     </div>
 
                     <div class="panel-body text-muted">
@@ -118,7 +129,7 @@ use \Assemblaphp\Entity;
                                     <?= date('Y-m-d', strtotime($ticket->getCustomFields()->lastWait)); ?>
                                 </span>
 
-                                <?= $ticket->getCustomFields()->waitingOn; ?>
+                                Waiting On: <?= $ticket->getCustomFields()->waitingOn; ?>
                             </div>
                         <?php endif; ?>
 

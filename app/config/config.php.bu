@@ -1,6 +1,20 @@
 <?php
 /**
  * Created for No Reason on 1/22/14.
- * 
+ *
  * @author Kevin Nuut <kevin@krushcom.com>
- */ 
+ */
+
+return array(
+    'connection' => array(
+        'apiUrl'    => 'https://api.assembla.com/',
+        'apiKey'    => 'XXX',
+        'apiSecret' => 'YYY',
+        'spaceId'   => 'ZZZ',
+        'version'   => 'v1'
+    ),
+    'www' => array(
+        'title' => 'Assembla Projects',
+        'link'  => 'https://www.assembla.com/spaces/ZZZ/'
+    )
+);
