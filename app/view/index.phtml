@@ -45,6 +45,7 @@ use \Assemblaphp\Entity;
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        <!--
                         <label for="direction" class="sr-only"></label>
                         <select name="direction" id="direction" class="form-control">
                             <?php foreach ($this->orderDirList as $orderDir): ?>
@@ -54,38 +55,49 @@ use \Assemblaphp\Entity;
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        -->
                     </div>
                 </form>
                 <p></p>
             </nav>
 
             <?php foreach ($this->ticketList as $ticket):
+                $assigned = $ticket->getAssignedTo()->getName() ? 'info' : 'warning';
                 $priority = $ticket->getPriority();
+                $lateness = @($ticket->getCustomFields()->deadline ?: date('Y-m-d'));
+                $lateness = time() - strtotime($lateness) > 3 ? 'warning' : 'info';
+
                 $priority = $priority == 5 ? 'danger' : ($priority == 4 ? 'warning' :
                     ($priority == 3 ? 'default' : ($priority == 2 ? 'info' : 'primary')));
                 $label = (in_array($ticket->getStatus(), array('Test', 'Review', 'Deploy')) ? 'success' :
-                    (in_array($ticket->getStatus(), array('Waiting', 'Paused')) ? 'danger' : 'info'));
+                    (in_array($ticket->getStatus(), array('Waiting', 'Paused')) ? 'warning' :
+                        (in_array($ticket->getStatus(), array('New')) ? 'primary' : 'info')));
                 $overdue = ($ticket->getTotalWorkingHours() > $ticket->getTotalEstimate() ? 'danger' : 'info');
             ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <span class="btn btn-<?= $priority; ?> btn-xs" title="Priority">!</span>
-                        <strong>#<?= $ticket->getNumber(); ?></strong>
+                        <strong>
+                            <a href="https://www.assembla.com/spaces/krush/tickets/<?= $ticket->getNumber(); ?>"
+                               title="See Full Ticket" target="_blank">
+                                #<?= $ticket->getNumber(); ?>
+                            </a>
+                        </strong>
                         <?= $ticket->getSummary(); ?>
 
                         <div class="pull-right">
 
-                            <span style="opacity: 0.35;">
-                                <span class="label label-default" style="margin-right: 0.5em;" title="Created On">
-                                    <?= date('Y-m-d', strtotime($ticket->getCreatedOn())); ?>
-                                </span>
-                                <span class="label label-default" style="margin-right: 0.5em;" title="Last Update">
-                                    <?= date('Y-m-d', strtotime($ticket->getUpdatedAt())); ?>
-                                </span>
-                                <span href="#" class="label label-<?= $overdue; ?>" style="margin-right: 0.5em;" title="Worked / Estimate">
-                                    <?= ceil($ticket->getTotalWorkingHours()); ?> /
-                                    <?= ceil($ticket->getTotalEstimate()); ?>
-                                </span>
+                            <?php if($ticket->getAssignedTo()->getName()): ?>
+                                <a href="https://www.assembla.com/profile/<?= $ticket->getAssignedTo()->getLogin(); ?>"
+                                   target="_blank" class="btn btn-xs btn-<?= $assigned; ?>" title="Assigned To">
+                                <?= $ticket->getAssignedTo()->getName(); ?>
+                                </a>
+                            <?php endif; ?>
+
+                            <span class="btn btn-xs btn-<?= $overdue; ?>" title="Worked / Estimate" data-toggle="modal"
+                                  data-target="#myModal" data-ticket="<?= $ticket->getNumber(); ?>">
+                                <?= ceil($ticket->getTotalWorkingHours()); ?> /
+                                <?= ceil($ticket->getTotalEstimate()); ?>
                             </span>
 
                             <a class="btn btn-xs btn-<?= $label; ?>" title="Status" data-toggle="modal"
@@ -109,6 +121,23 @@ use \Assemblaphp\Entity;
                                 <?= $ticket->getCustomFields()->waitingOn; ?>
                             </div>
                         <?php endif; ?>
+
+                        <p></p>
+
+                        <div style="opacity: 0.75;">
+                            <span class="label label-default" style="margin-right: 0.5em;" title="Created On">
+                                Created <?= date('Y-m-d', strtotime($ticket->getCreatedOn())); ?>
+                            </span>
+                            <span class="label label-default" style="margin-right: 0.5em;" title="Last Update">
+                                Updated <?= date('Y-m-d', strtotime($ticket->getUpdatedAt())); ?>
+                            </span>
+                            <?php if (!empty($ticket->getCustomFields()->deadline)): ?>
+                                <span class="label label-<?= $lateness; ?>" style="margin-right: 0.5em;" title="Last Update">
+                                    Deadline <?= date('Y-m-d', strtotime($ticket->getCustomFields()->deadline)); ?>
+                                </span>
+                            <?php endif; ?>
+                        </div>
+
                     </div>
                 </div>
             <?php endforeach; ?>
