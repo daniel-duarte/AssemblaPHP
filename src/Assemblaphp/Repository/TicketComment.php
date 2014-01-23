@@ -41,13 +41,22 @@ class TicketComment extends RepositoryAbstract
 
         foreach ($apiList as $ticketComment) {
             $ticketCommentObj    = new \Assemblaphp\Entity\TicketComment($ticketComment);
+            $comment = $ticketCommentObj->getComment();
 
             if ($filter) {
-                $comment = $ticketCommentObj->getComment();
                 if (empty($comment) || substr($comment, 0, 3) == '(In') {
                     continue;
                 }
             }
+
+            $comment = preg_replace('/\(In.*?\)( [a-z]+ #\d+)?/', 'COMMIT: ', $comment);
+
+            if (empty($comment)) {
+                continue;
+            }
+
+            $ticketCommentObj->setComment($comment);
+
 
             $outputList[$ticketCommentObj->getId()] = $ticketCommentObj;
         }

@@ -57,7 +57,7 @@ switch ($action) {
 
         if ($ticket) {
             $commentRepo = $em->getRepository(new \Assemblaphp\Entity\TicketComment());
-            $commentList = $commentRepo->findBy(array('ticket' => $ticket, 'filter' => true), array('updatedAt'));
+            $commentList = $commentRepo->findBy(array('ticket' => $ticket, 'filter' => false), array('updatedAt'));
 
             $view->commentList = $commentList;
         }
