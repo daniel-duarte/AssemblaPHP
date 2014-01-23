@@ -1,6 +1,6 @@
 $(function() {
-   $('#milestone').on('change', function() {
-      location.href = '/?milestone=' + $(this).val();
+   $('#navsearch select').on('change', function() {
+      location.href = '/?' + $('#navsearch').serialize();
    });
 
 

@@ -63,7 +63,7 @@ class Ticket extends RepositoryAbstract
 
         if (!empty($orderBy)) {
             foreach ($orderBy as $orderCol) {
-                $outputList = $this->orderBy($outputList, $orderCol);
+                $outputList = $this->orderBy($outputList, $orderCol, -1);
             }
         }
 

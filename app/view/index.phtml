@@ -25,14 +25,32 @@ use \Assemblaphp\Entity;
                     Aggregato Global Projects
                 </span>
 
-                <form class="navbar-form navbar-right">
+                <form id="navsearch" class="navbar-form navbar-right">
                     <div class="form-group">
                         <label for="milestone" class="sr-only"></label>
-                        <select id="milestone" class="form-control">
+                        <select name="milestone" id="milestone" class="form-control">
                             <?php foreach ($this->milestoneList as $milestone): ?>
                                 <option value="<?= $milestone->getId(); ?>"
                                     <?= ($this->milestoneId == $milestone->getId() ? 'selected="selected"' : ''); ?>>
                                     <?= $milestone->getTitle(); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <label for="sort" class="sr-only"></label>
+                        <select name="sort" id="sort" class="form-control">
+                            <?php foreach ($this->orderByList as $orderBy): ?>
+                                <option value="<?= $orderBy; ?>"
+                                    <?= ($this->orderBy == $orderBy ? 'selected="selected"' : ''); ?>>
+                                    <?= $orderBy; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <label for="direction" class="sr-only"></label>
+                        <select name="direction" id="direction" class="form-control">
+                            <?php foreach ($this->orderDirList as $orderDir): ?>
+                                <option value="<?= $orderBy; ?>"
+                                    <?= ($this->orderDir == $orderDir ? 'selected="selected"' : ''); ?>>
+                                    <?= $orderDir; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -42,12 +60,16 @@ use \Assemblaphp\Entity;
             </nav>
 
             <?php foreach ($this->ticketList as $ticket):
+                $priority = $ticket->getPriority();
+                $priority = $priority == 5 ? 'danger' : ($priority == 4 ? 'warning' :
+                    ($priority == 3 ? 'default' : ($priority == 2 ? 'info' : 'primary')));
                 $label = (in_array($ticket->getStatus(), array('Test', 'Review', 'Deploy')) ? 'success' :
                     (in_array($ticket->getStatus(), array('Waiting', 'Paused')) ? 'danger' : 'info'));
                 $overdue = ($ticket->getTotalWorkingHours() > $ticket->getTotalEstimate() ? 'danger' : 'info');
             ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <span class="btn btn-<?= $priority; ?> btn-xs" title="Priority">!</span>
                         <strong>#<?= $ticket->getNumber(); ?></strong>
                         <?= $ticket->getSummary(); ?>
 

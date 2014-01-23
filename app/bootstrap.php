@@ -28,13 +28,20 @@ switch ($action) {
         $view = new View(__DIR__ . '/view/index.phtml');
 
         $milestoneId   = @($_GET['milestone'] ? : '2705133');
+        $orderBy       = @($_GET['sort'] ? : 'priority');
+        $orderDir      = @($_GET['sort'] ? : 'DESC');
+
         $milestoneList = $em->getRepository(new \Assemblaphp\Entity\Milestone())->findBy(array('status' => 'upcoming'));
 
         $ticketRepo = $em->getRepository(new Ticket());
-        $ticketList = $ticketRepo->findBy(array('milestone' => $milestoneId, 'status' => 'active'), array('status'));
+        $ticketList = $ticketRepo->findBy(array('milestone' => $milestoneId, 'status' => 'active'), array($orderBy));
 
         $view->milestoneList = $milestoneList;
+        $view->orderByList   = array('status', 'priority', 'assignedTo', 'createdOn');
+        $view->orderDirList  = array('ASC', 'DESC');
         $view->milestoneId   = $milestoneId;
+        $view->orderBy       = $orderBy;
+        $view->orderDir      = $orderDir;
         $view->ticketList    = $ticketList;
         break;
     case 'comment':
