@@ -57,23 +57,33 @@ use \Assemblaphp\Entity;
                             <?php endforeach; ?>
                         </select>
                         -->
+                        <label for="department" class="sr-only"></label>
+                        <select name="department" id="department" class="form-control">
+                            <?php foreach ($this->deptList as $department): ?>
+                                <option value="<?= $department; ?>"
+                                    <?= ($this->department == $department ? 'selected="selected"' : ''); ?>>
+                                    <?= $department; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                 </form>
                 <p></p>
             </nav>
 
             <?php foreach ($this->ticketList as $ticket):
-                $assigned = $ticket->getAssignedTo()->getName() ? 'info' : 'warning';
-                $priority = $ticket->getPriority();
-                $lateness = @($ticket->getCustomFields()->deadline ?: date('Y-m-d'));
-                $lateness = time() - strtotime($lateness) > 3 ? 'warning' : 'info';
+                if ($this->department == 'All' || $this->department == $ticket->getCustomFields()->departmentRequesting):
+                    $assigned = $ticket->getAssignedTo()->getName() ? 'info' : 'warning';
+                    $priority = $ticket->getPriority();
+                    $lateness = @($ticket->getCustomFields()->deadline ?: date('Y-m-d'));
+                    $lateness = time() - strtotime($lateness) > 3 ? 'warning' : 'info';
 
-                $priority = $priority == 5 ? 'danger' : ($priority == 4 ? 'warning' :
-                    ($priority == 3 ? 'default' : ($priority == 2 ? 'info' : 'primary')));
-                $label = (in_array($ticket->getStatus(), array('Test', 'Review', 'Deploy')) ? 'success' :
-                    (in_array($ticket->getStatus(), array('Waiting', 'Paused')) ? 'warning' :
-                        (in_array($ticket->getStatus(), array('New')) ? 'primary' : 'info')));
-                $overdue = ($ticket->getTotalWorkingHours() > $ticket->getTotalEstimate() ? 'danger' : 'info');
+                    $priority = $priority == 5 ? 'danger' : ($priority == 4 ? 'warning' :
+                        ($priority == 3 ? 'default' : ($priority == 2 ? 'info' : 'primary')));
+                    $label = (in_array($ticket->getStatus(), array('Test', 'Review', 'Deploy')) ? 'success' :
+                        (in_array($ticket->getStatus(), array('Waiting', 'Paused')) ? 'warning' :
+                            (in_array($ticket->getStatus(), array('New')) ? 'primary' : 'info')));
+                    $overdue = ($ticket->getTotalWorkingHours() > $ticket->getTotalEstimate() ? 'danger' : 'info');
             ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -156,7 +166,7 @@ use \Assemblaphp\Entity;
 
                     </div>
                 </div>
-            <?php endforeach; ?>
+            <?php endif; endforeach; ?>
 
         </div>
 
