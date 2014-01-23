@@ -41,7 +41,7 @@ use \Assemblaphp\Entity;
                             <?php foreach ($this->orderByList as $orderBy): ?>
                                 <option value="<?= $orderBy; ?>"
                                     <?= ($this->orderBy == $orderBy ? 'selected="selected"' : ''); ?>>
-                                    <?= $orderBy; ?>
+                                    <?= ucwords($orderBy); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
