@@ -43,6 +43,6 @@ interface EntityManagerInterface
      *
      * @return \StdClass
      */
-    public function call($object, $method, Array $query = null, Array $fields = null, $id = null);
+    public function call($object, $method, Array $query = null, Array $fields = array(), $id = null);
 
 } 
