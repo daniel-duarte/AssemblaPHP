@@ -43,7 +43,7 @@ class Milestone extends RepositoryAbstract
         foreach ($apiList as $milestone) {
             $ticketObj    = new \Assemblaphp\Entity\Milestone($milestone);
 
-            $outputList[$milestone->id] = $ticketObj;
+            $outputList[$milestone['id']] = $ticketObj;
         }
 
         if (!empty($orderBy)) {

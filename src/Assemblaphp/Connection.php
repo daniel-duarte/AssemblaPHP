@@ -7,6 +7,12 @@
 
 namespace Assemblaphp;
 
+use Zend\Http\Client as HttpClient;
+use Zend\Http\Response as HttpResponse;
+use Zend\Http\Request as HttpRequest;
+use Zend\Http\Headers as HttpHeaders;
+use Zend\Http\Client\Adapter\Exception\RuntimeException as HttpRuntimeException;
+
 /**
  * Class Connection
  *
@@ -135,67 +141,54 @@ class Connection
     {
         $curlPath = $this->apiUrl . $this->version . '/' . $request . '.' . $this->responseType;
 
-        $ch   = curl_init();
-        $json = json_encode($fields);
-
-        $curlOpts = array(
-            CURLOPT_URL            => $curlPath,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT        => $this->timeout,
-            CURLOPT_HTTPHEADER     => array(
-                'X-Api-Key: ' . $this->apiKey,
-                'X-Api-Secret: ' . $this->apiSecret,
-                'Content-Type: application/' . $this->responseType,
-                'Accept: application/' . $this->responseType
-            ),
-            CURLOPT_SSL_VERIFYPEER => false
-        );
-
         switch ($verb) {
             case $this::VERB_POST:
-                $curlOpts[CURLOPT_POST] = true;
-                $curlOpts[CURLOPT_POSTFIELDS] = $json;
-                break;
-
             case $this::VERB_PUT:
-                $curlOpts[CURLOPT_PUT] = true;
-                $curlOpts[CURLOPT_POSTFIELDS] = $json;
-                break;
-
             case $this::VERB_DELETE:
-                $curlOpts[CURLOPT_CUSTOMREQUEST] = $this::VERB_DELETE;
-                $curlOpts[CURLOPT_POSTFIELDS] = $json;
+                $jsonBody = json_encode($fields);
                 break;
-
             case $this::VERB_GET:
-
             default:
-                $curlOpts[CURLOPT_POST] = false;
-                $curlOpts[CURLOPT_URL] = $curlPath . '?' . http_build_query($fields);
-                $curlOpts[CURLOPT_POST] = false;
-                break;
-
+                $curlPath = $curlPath . '?' . http_build_query($fields);
+                $jsonBody = null;
         }
 
-        curl_setopt_array($ch, $curlOpts);
+        $httpClient = new HttpClient($curlPath, ['sslcapath' => '/etc/ssl/certs']);
+        if ($jsonBody !== null) {
+            $httpClient->setRawData($jsonBody, null);
+        }
+        $httpClient->setMethod($verb);
 
-        $result     = curl_exec($ch);
-        $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        $headers = new HttpHeaders();
+        $headers->addHeaderLine('X-Api-Key', $this->apiKey);
+        $headers->addHeaderLine('X-Api-Secret', $this->apiSecret);
+        $headers->addHeaderLine('Content-Type', 'application/' . $this->responseType);
+        $headers->addHeaderLine('Accept', 'application/' . $this->responseType);
+        $httpClient->setHeaders($headers);
 
-        $responseData = json_decode($result);
+        try {
+            $apiResponse = $httpClient->send();
+        } catch (RuntimeException $ex) {
+            // @todo log exception
+            $apiResponse = new Response();
+            $apiResponse->setStatusCode(HttpResponse::STATUS_CODE_500);
+        }
+
+        $apiJsonResponse = json_decode($apiResponse->getBody(), true);
+        $httpStatus = $apiResponse->getStatusCode();
 
         try {
             $this->checkStatus($httpStatus);
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            if (!empty($responseData->error)) {
-                $message .= ' {' . $responseData->error . '}';
+            if (!empty($apiJsonResponse->error)) {
+                $message .= ' {' . $apiJsonResponse->error . '}';
             }
 
-            throw new \Exception ($message, $e->getCode());
+            // @todo Fix to avoid commenting the exception.
+            // throw new \Exception ($message, $e->getCode());
         }
 
-        return $responseData;
+        return $apiJsonResponse;
     }
 } 

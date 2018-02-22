@@ -37,7 +37,7 @@ class User extends RepositoryAbstract
         $outputList = array();
 
         foreach ($apiList as $user) {
-            $outputList[$user->id] = new \Assemblaphp\Entity\User($user);
+            $outputList[$user['id']] = new \Assemblaphp\Entity\User($user);
         }
 
         return $outputList;

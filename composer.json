@@ -15,7 +15,8 @@
 
     "require": {
         "php": ">= 5.4.0",
-        "psr/log": "~1.0"
+        "psr/log": "~1.0",
+        "zendframework/zend-http": "^2.7"
     },
 
     "autoload": {

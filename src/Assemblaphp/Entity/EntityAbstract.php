@@ -29,7 +29,7 @@ abstract class EntityAbstract implements EntityInterface
      */
     public function configure($configuration = null)
     {
-        if (!empty($configuration)) {
+        if (is_array($configuration)) {
             foreach ($configuration as $key => $value) {
                 $formatKey = 'set' . $this->formatKey($key);
 

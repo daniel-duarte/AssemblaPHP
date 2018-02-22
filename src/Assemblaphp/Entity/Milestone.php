@@ -23,6 +23,8 @@ class Milestone extends EntityAbstract
     private $spaceId;
     private $description;
     private $isCompleted;
+    private $badget;
+    private $startDate;
     private $completedDate;
     private $updatedAt;
     private $updatedBy;
@@ -30,6 +32,41 @@ class Milestone extends EntityAbstract
     private $releaseNotes;
     private $plannerType;
     private $prettyReleaseLevel;
+
+
+    /**
+     * @param mixed $badget
+     */
+    public function setBudget($badget)
+    {
+        $this->badget = $badget;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBudget()
+    {
+        return $this->badget;
+    }
+
+    /**
+     * @param mixed $startDate
+     */
+    public function setStartDate($startDate)
+    {
+        $this->startDate = $startDate;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
 
     /**
      * @param mixed $completedDate
